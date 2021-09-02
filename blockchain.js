@@ -274,7 +274,6 @@ function handleShutdown(options) {
 process.on('exit', handleShutdown.bind(null, {exit:false}));
 process.on('SIGINT', handleShutdown.bind(null, {exit:true}));
 process.on('SIGTERM', handleShutdown.bind(null, {exit:true}));
-process.on('SIGKILL', handleShutdown.bind(null, {exit:true}));
 
 
 connectToPeers(initialPeers);
