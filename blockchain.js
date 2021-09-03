@@ -37,7 +37,7 @@ class Block {
   }
 }
 
-var blockfromObject = (object) => {
+var blockfromObject = (object) => { // Object assign ?
     return new Block(
         object.index,
         object.previousHash,
@@ -53,7 +53,8 @@ var sockets = [];
 var MessageType = {
     QUERY_LATEST: 0,
     QUERY_ALL: 1,
-    RESPONSE_BLOCKCHAIN: 2
+    RESPONSE_BLOCKCHAIN: 2,
+    CLOSE_REQUEST: 3
 };
 
 var getGenesisBlock = () => {
@@ -78,6 +79,10 @@ var initHttpServer = () => {
     app.post('/addPeer', (req, res) => {
         connectToPeers([req.body.peer]);
         res.send();
+    });
+    app.post('/close', (req, res) => {
+        res.send();
+        handleShutdown({exit:true})
     });
     app.listen(http_port, () => console.log('Écoute HTTP sur le port : ' + http_port));
 };
@@ -110,6 +115,9 @@ var initMessageHandler = (ws) => {
                 break;
             case MessageType.RESPONSE_BLOCKCHAIN:
                 handleBlockchainResponse(message);
+                break;
+            case MessageType.CLOSE_REQUEST:
+                handleShutdown({exit:true});
                 break;
         }
     });
