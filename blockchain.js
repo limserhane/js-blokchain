@@ -9,7 +9,7 @@ var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
-var blockchainFilePath = "blockchain.json"
+var blockchainFilePath = process.env.SGCSFUSEPATH+"/blockchain.json"
 
 class Block {
     constructor(index, previousHash, timestamp, data, hfile, hash, nonce) {
